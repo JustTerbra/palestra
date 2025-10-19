@@ -1,0 +1,15 @@
+{
+  "global": {
+    "guild_id": "global",
+    "auto_reply_enabled": true,
+    "auto_reply_trigger": "ping",
+    "auto_reply_text": "pong",
+    "ticket_category_name": "Tickets",
+    "ticket_category_id": null,
+    "ticket_naming_template": "ticket-{user}",
+    "panel_title": "Supporto",
+    "panel_description": "Clicca il bottone per aprire un ticket.",
+    "panel_button_label": "Apri ticket",
+    "panel_show_thumbnail": false
+  }
+}
