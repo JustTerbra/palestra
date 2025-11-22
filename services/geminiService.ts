@@ -1,7 +1,18 @@
-usingEnv: !!envKey,
+
+import { GoogleGenAI, Type } from "@google/genai";
+
+// API Key - directly hardcoded for GitHub Pages deployment
+const API_KEY = 'AIzaSyAWpGLyp1uuaqUT--YiWqFoqT7UWBwEKtk';
+
+// Also check for environment variables (for local development)
+const envKey = typeof process !== 'undefined' && (process.env?.API_KEY || process.env?.GEMINI_API_KEY);
+const finalApiKey = envKey || API_KEY;
+
+console.log('Gemini API Key initialized:', {
+  usingEnv: !!envKey,
   usingHardcoded: !envKey,
-    keyLength: finalApiKey?.length || 0,
-      keyPreview: finalApiKey ? `${finalApiKey.substring(0, 10)}...${finalApiKey.substring(finalApiKey.length - 4)}` : 'none'
+  keyLength: finalApiKey?.length || 0,
+  keyPreview: finalApiKey ? `${finalApiKey.substring(0, 10)}...${finalApiKey.substring(finalApiKey.length - 4)}` : 'none'
 });
 
 if (!finalApiKey || finalApiKey.length < 20) {
