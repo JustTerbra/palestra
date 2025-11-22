@@ -3,24 +3,28 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig(({ mode }) => {
-    const env = loadEnv(mode, '.', '');
-    // Use environment variable or fallback to the provided API key for GitHub Pages
-    const geminiApiKey = env.GEMINI_API_KEY || process.env.GEMINI_API_KEY || 'AIzaSyBvZjrk4EqDuox-tvOSBBym1k0JsdB3sKg';
-    return {
-      base: '/palestra/',
-      server: {
-        port: 3000,
-        host: '0.0.0.0',
-      },
-      plugins: [react()],
-      define: {
-        'process.env.API_KEY': JSON.stringify(geminiApiKey),
-        'process.env.GEMINI_API_KEY': JSON.stringify(geminiApiKey)
-      },
-      resolve: {
-        alias: {
-          '@': path.resolve(__dirname, '.'),
-        }
+  const env = loadEnv(mode, '.', '');
+  // Get API key from environment variable
+  const geminiApiKey = env.VITE_GEMINI_API_KEY || '';
+
+  if (!geminiApiKey) {
+    console.warn('⚠️  VITE_GEMINI_API_KEY not found in .env file');
+  }
+
+  return {
+    base: '/palestra/',
+    server: {
+      port: 3000,
+      host: '0.0.0.0',
+    },
+    plugins: [react()],
+    define: {
+      'import.meta.env.VITE_GEMINI_API_KEY': JSON.stringify(geminiApiKey)
+    },
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, '.'),
       }
-    };
+    }
+  };
 });
