@@ -1,0 +1,7 @@
+{
+  "name": "TerbrasFit: Gym & Nutrition Tracker",
+  "description": "A comprehensive gym and nutrition tracker to log your exercises and meals, powered by Gemini for personalized suggestions. Track your streaks and stay motivated on your fitness journey.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
