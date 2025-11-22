@@ -4,11 +4,15 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
-  // Get API key from environment variable
-  const geminiApiKey = env.VITE_GEMINI_API_KEY || '';
 
-  if (!geminiApiKey) {
-    console.warn('⚠️  VITE_GEMINI_API_KEY not found in .env file');
+  // For local development: use .env file
+  // For GitHub Pages deployment: use fallback hardcoded key
+  const geminiApiKey = env.VITE_GEMINI_API_KEY || 'AIzaSyBikL3Kp_JfBjfGD1m5MnkDW_8wr1PqFbw';
+
+  if (!env.VITE_GEMINI_API_KEY) {
+    console.warn('⚠️  Using fallback API key for GitHub Pages deployment');
+  } else {
+    console.log('✅ Using API key from .env file (local development)');
   }
 
   return {
