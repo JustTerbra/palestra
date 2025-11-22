@@ -40,7 +40,7 @@ export const generateWorkoutSuggestion = async (prompt: string) => {
   try {
     console.log('Generating workout suggestion with prompt:', prompt);
     const response = await ai.models.generateContent({
-      model: "gemini-1.5-flash", // Using Gemini 1.5 Flash model
+      model: "gemini-1.5-flash",
       contents: `Generate a workout plan based on the following goal: "${prompt}".`,
       config: {
         systemInstruction: "You are a fitness expert. Provide workout plans in a structured JSON format. Reps should be a string range, like '8-12'.",
@@ -64,8 +64,10 @@ export const generateWorkoutSuggestion = async (prompt: string) => {
         },
       },
     });
-    
-    const parsed = JSON.parse(response.text);
+
+    // Check if response.text is a function or property
+    const text = typeof response.text === 'function' ? response.text() : response.text;
+    const parsed = JSON.parse(text);
     return parsed.exercises;
 
   } catch (error: any) {
@@ -76,20 +78,20 @@ export const generateWorkoutSuggestion = async (prompt: string) => {
       status: error?.status,
       response: error?.response
     });
-    
+
     // Handle rate limiting and API errors for free tier
     if (error?.message?.includes('429') || error?.message?.includes('quota') || error?.status === 429) {
       throw new Error("API rate limit reached. Please try again later.");
     }
-    
+
     if (error?.message?.includes('401') || error?.message?.includes('403') || error?.status === 401 || error?.status === 403) {
       throw new Error("Invalid API key. Please check your Gemini API key.");
     }
-    
+
     if (error?.message?.includes('404') || error?.status === 404) {
       throw new Error("Model not found. Please check the model name.");
     }
-    
+
     throw new Error(`Failed to get workout suggestion: ${error?.message || 'Unknown error'}`);
   }
 };
@@ -140,7 +142,9 @@ export const getNutritionInfo = async (prompt: string) => {
       },
     });
 
-    return JSON.parse(response.text);
+    // Check if response.text is a function or property
+    const text = typeof response.text === 'function' ? response.text() : response.text;
+    return JSON.parse(text);
   } catch (error: any) {
     console.error("Error getting nutrition info:", error);
     console.error("Error details:", {
@@ -149,20 +153,20 @@ export const getNutritionInfo = async (prompt: string) => {
       status: error?.status,
       response: error?.response
     });
-    
+
     // Handle rate limiting and API errors for free tier
     if (error?.message?.includes('429') || error?.message?.includes('quota') || error?.status === 429) {
       throw new Error("API rate limit reached. Please try again later.");
     }
-    
+
     if (error?.message?.includes('401') || error?.message?.includes('403') || error?.status === 401 || error?.status === 403) {
       throw new Error("Invalid API key. Please check your Gemini API key.");
     }
-    
+
     if (error?.message?.includes('404') || error?.status === 404) {
       throw new Error("Model not found. Please check the model name.");
     }
-    
+
     throw new Error(`Failed to get nutrition info: ${error?.message || 'Unknown error'}`);
   }
 };
