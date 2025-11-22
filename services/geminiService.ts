@@ -40,7 +40,7 @@ export const generateWorkoutSuggestion = async (prompt: string) => {
   try {
     console.log('Generating workout suggestion with prompt:', prompt);
     const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash-exp",
+      model: "gemini-2.5-flash",
       contents: `Generate a workout plan based on the following goal: "${prompt}".`,
       config: {
         systemInstruction: "You are a fitness expert. Provide workout plans in a structured JSON format. Reps should be a string range, like '8-12'.",
