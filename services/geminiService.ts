@@ -93,7 +93,7 @@ export const getNutritionInfo = async (prompt: string) => {
   try {
     console.log('Getting nutrition info for:', prompt);
     const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash-exp",
+      model: "gemini-2.5-flash",
       contents: `Analyze the nutritional content of the following meal: "${prompt}".`,
       config: {
         systemInstruction: "You are a nutritionist. Analyze the food description. Provide a nutritional breakdown for each distinct item in an 'items' array. Also, provide a 'total' object with the sum of all nutritional values. If only one item is described, the 'items' array should contain just that one item, and 'total' should reflect its values. Respond in JSON format. All nutritional values must be numbers.",
