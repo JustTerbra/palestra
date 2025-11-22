@@ -1,22 +1,17 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
 
-// API Key - directly hardcoded for GitHub Pages deployment
-const API_KEY = 'AIzaSyAWpGLyp1uuaqUT--YiWqFoqT7UWBwEKtk';
-
-// Also check for environment variables (for local development)
-const envKey = typeof process !== 'undefined' && (process.env?.API_KEY || process.env?.GEMINI_API_KEY);
-const finalApiKey = envKey || API_KEY;
+// Get API Key from environment variables only
+// For Vite: VITE_GEMINI_API_KEY in .env file
+const finalApiKey = import.meta.env?.VITE_GEMINI_API_KEY || '';
 
 console.log('Gemini API Key initialized:', {
-  usingEnv: !!envKey,
-  usingHardcoded: !envKey,
   keyLength: finalApiKey?.length || 0,
   keyPreview: finalApiKey ? `${finalApiKey.substring(0, 10)}...${finalApiKey.substring(finalApiKey.length - 4)}` : 'none'
 });
 
 if (!finalApiKey || finalApiKey.length < 20) {
-  console.error("Gemini API key is invalid or missing. AI features will not work.");
+  console.error("❌ Gemini API key is invalid or missing. Please set VITE_GEMINI_API_KEY in your .env file.");
 }
 
 // Initialize AI client
@@ -34,7 +29,7 @@ try {
 
 export const generateWorkoutSuggestion = async (prompt: string) => {
   if (!ai) {
-    throw new Error("Gemini API key not configured. Please set GEMINI_API_KEY in your environment variables.");
+    throw new Error("Gemini API key not configured. Please set VITE_GEMINI_API_KEY in your .env file.");
   }
 
   try {
@@ -87,7 +82,7 @@ export const generateWorkoutSuggestion = async (prompt: string) => {
 
 export const getNutritionInfo = async (prompt: string) => {
   if (!ai) {
-    throw new Error("Gemini API key not configured. Please set GEMINI_API_KEY in your environment variables.");
+    throw new Error("Gemini API key not configured. Please set VITE_GEMINI_API_KEY in your .env file.");
   }
 
   try {
